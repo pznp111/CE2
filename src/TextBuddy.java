@@ -34,6 +34,14 @@ public class TextBuddy {
 	static String inputfile;
 	private static ArrayList<String> list = new ArrayList<String>();
 	private static Scanner sc = new Scanner(System.in);
+	
+	private static final String ADD_CMD = "add";
+	private static final String DELETE_CMD = "delete";
+	private static final String DISPLAY_CMD = "display";
+	private static final String CLEAR_CMD = "clear";
+	private static final String EXIT_CMD = "exit";
+	private static final String SEARCH_CMD ="search";
+	
 	private static final String ERROR_FILE_NAME_NOT_SPECIFIED = "Error, file name not specified";
 	private static final String ADD_MESSAGE = "added to %s: \"%s\"";
 	private static final String DELETE_MESSAGE = "deleted from %s: \"%s\"";
@@ -42,8 +50,8 @@ public class TextBuddy {
 	private static final String WELCOME_MESSAGE = "Welcome to TextBuddy. %s is ready for use";
 	private static final String FORMAT_ERROR = "Invalid Command Format ";
 	private static final String DELETE_ERROR_MESSAGE = "The item you are trying to delete does not exist";
-	
-	
+	private static final String EMPTY_ERROR_MESSAGE = "You have not add task, nothing found";
+	private static final String NOTFOUND_ERROR_MESSAGE ="nothing found";
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -96,41 +104,50 @@ public class TextBuddy {
 	 * this function execute the commands  
 	 * ====================================================================
 	 */
-	private static String executeCommand(String userCommand) throws IOException {
+	static String executeCommand(String userCommand) throws IOException {
 		String command=getCommand(userCommand);
 		String info=getInfo(userCommand);
 		
-		if(command.equals("add")){
-			
-			return executeAdd(info);
-			
-		}else if(command.equals("display")){
-			
-			 executeDisplay(info);
-			
-		}else if(command.equals("delete")){
-			
-			return executeDelete(info);
-			
-		}else if(command.equals("clear")){
-			
-			return executeClear();
-			
-		}else if(command.equals("exit")){
-			
-			executeExit();
-			
-		}
-		else{
-			
-			return(FORMAT_ERROR);
-			
-		}
-		
+		if(command.equals(ADD_CMD)){			
+			return executeAdd(info);			
+		}else if(command.equals(DISPLAY_CMD)){			
+			 executeDisplay(info);		
+		}else if(command.equals(DELETE_CMD)){		
+			return executeDelete(info);			
+		}else if(command.equals(CLEAR_CMD)){			
+			return executeClear();			
+		}else if(command.equals(EXIT_CMD)){			
+			executeExit();		
+		}else if(command.equals(SEARCH_CMD)){
+			executeSearch(info);
+		}else{			
+			return(FORMAT_ERROR);			
+		}		
 		return "";
 	}
 
 	
+
+	static String executeSearch(String info) {
+		boolean isFound = false;
+		String lineFound = "";
+		if(list.size() == 0){
+			return EMPTY_ERROR_MESSAGE;
+		}
+		
+		for(int i =0; i < list.size(); i++){
+			if(list.get(i).contains(info)){
+				isFound = true;
+				lineFound ="found, the task is " + list.get(i);
+			}
+		}
+		
+		if(isFound == true){
+			return lineFound;
+		}else{
+		return NOTFOUND_ERROR_MESSAGE;
+		}
+	}
 
 	private static void executeExit() throws IOException  {
 	
@@ -254,6 +271,11 @@ public class TextBuddy {
 	    
 	  }  
 	  return true;  
+	}
+
+	public static Object executeSort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
