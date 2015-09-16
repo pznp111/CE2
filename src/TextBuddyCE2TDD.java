@@ -17,7 +17,28 @@ public class TextBuddyCE2TDD {
     public void testEmptySearch() throws IOException{
 		assertEquals("You have not add task, nothing found",TextBuddy.executeSearch("hw"));
 	}
+    
+	@Test
+	public void testEmptySort(){
+		assertEquals("you have not add any task, nothing to sort",TextBuddy.executeSort());
+	}
 	
-
+	/*
+	@Test
+	public void testAdd(){
+		assertEquals("added to mytextfile.txt: \"little brown fox\"",TextBuddy.executeAdd("little brown fox"));
+	}
+	
+	@Test
+	public void testNotFoundSearch(){
+		assertEquals("nothing found",TextBuddy.executeSearch("hw"));
+	}
+	
+	@Test
+	public void testSearch(){
+		assertEquals("found, the task is little brown fox",TextBuddy.executeSearch("fox"));
+	}
+	
+*/
 
 }
