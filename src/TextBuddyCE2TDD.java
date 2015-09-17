@@ -39,12 +39,12 @@ public class TextBuddyCE2TDD {
 	public void testNotFoundSearch(){
 		assertEquals("nothing found",TextBuddy.executeSearch("hw"));
 	}
-	/*
+	
 	@Test
 	public void testSearch(){
 		assertEquals("found, the task is little brown fox",TextBuddy.executeSearch("fox"));
 	}
 	
-*/
+
 
 }
