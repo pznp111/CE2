@@ -1,4 +1,4 @@
-/*CS2103T CE1 TextBuddy 
+/*CS2103T CE2 TextBuddy 
  * Lin Xinlin
  * A0108355H
  * 
@@ -36,7 +36,7 @@ import java.util.Scanner;
 public class TextBuddy {
 	static String inputfile;
 	private static ArrayList<String> list = new ArrayList<String>();
-	private static String file = "";
+	private static String file = "tasklist.txt";
 	private static Scanner sc = new Scanner(System.in);
 	
 	private static final String ADD_CMD = "add";
@@ -74,9 +74,7 @@ public class TextBuddy {
 			String feedback = executeCommand(userCommand);
 			showToUser(feedback);
 			saveFile();
-		}
-		
-		
+		}	
 	}
 	
 	/*
@@ -87,21 +85,17 @@ public class TextBuddy {
 	 */
 	private static void loadinput(String[] args) throws IOException {
 		
-		if(args.length == 0){
-			
+		if(args.length == 0){			
 			showToUser(ERROR_FILE_NAME_NOT_SPECIFIED);
-			System.exit(0);
-			
-		}else{
-			
+			System.exit(0);			
+		}else{		
 			inputfile = args[0];
-			executeKeyinOrder();
-			
+			executeKeyinOrder();			
 		}
 	}
 	
-
 	private static void showToUser(String text) {
+		
 		System.out.println(text);
 	}
 
@@ -111,6 +105,7 @@ public class TextBuddy {
 	 * ====================================================================
 	 */
 	static String executeCommand(String userCommand) throws IOException {
+		
 		String command=getCommand(userCommand);
 		String info=getInfo(userCommand);
 		
@@ -136,6 +131,7 @@ public class TextBuddy {
 	}
 
 	static String executeSort() {
+		
 	String sortMSG = "";	
 	if(list.size() == 0){
 	return EMPTY_SORT_MESSAGE;	
@@ -147,8 +143,10 @@ public class TextBuddy {
 	}
 
 	static String executeSearch(String info) {
+		
 		boolean isFound = false;
 		String lineFound = "";
+		
 		if(list.size() == 0){
 			return EMPTY_ERROR_MESSAGE;
 		}
@@ -168,14 +166,11 @@ public class TextBuddy {
 	}
 
 	private static void executeExit() throws IOException  {
-	
-		
+			
 		    PrintWriter writer = new PrintWriter(inputfile, "UTF-8");
-		    for(int i=0; i<list.size(); i++ ){
-		    	
+		    for(int i=0; i<list.size(); i++ ){	   
 		    	writer.write(list.get(i));
-		    	writer.write(System.getProperty("line.separator"));
-		    	
+		    	writer.write(System.getProperty("line.separator"));		    	
 		    }
 		    
 			writer.close();		
@@ -185,32 +180,24 @@ public class TextBuddy {
 	static String executeClear() {
 		
 		list.clear();
-		return String.format(CLEAR_MESSAGE, inputfile);
-		
+		return String.format(CLEAR_MESSAGE, inputfile);		
 	}
 
 	static String executeDelete(String info)  {
 		
-		String returnInfo="";
-		
-		if(isNumeric(info)){
-			
+		String returnInfo="";		
+		if(isNumeric(info)){			
 			int num=Integer.parseInt(info);
-			if(num>list.size()){
-				
-			returnInfo=DELETE_ERROR_MESSAGE;
-				
-			}else{
 			
+			if(num>list.size()){				
+			returnInfo=DELETE_ERROR_MESSAGE;				
+			}else{			
 			list.remove(num-1);
-			returnInfo = String.format(DELETE_MESSAGE, inputfile,info);
-			
+			returnInfo = String.format(DELETE_MESSAGE, inputfile,info);			
 			}
 			
-		}else{
-			
-			returnInfo = FORMAT_ERROR;
-			
+		}else{	
+			returnInfo = FORMAT_ERROR;			
 		}
 		
 		return returnInfo;
@@ -218,23 +205,18 @@ public class TextBuddy {
 	}
 
 	static String executeAdd(String info) {
-
 		
 		list.add(info);
 		String returnInfo=String.format(ADD_MESSAGE, inputfile,info);
-		return returnInfo;
-		
+		return returnInfo;		
 	}
 
 	static boolean executeDisplay(String info) {
 
 		boolean valid = false;
-		if(list.size()==0){
-			
-			showToUser(String.format(EMPTY_MESSAGE, inputfile));
-			
-		}else{
-		
+		if(list.size()==0){			
+			showToUser(String.format(EMPTY_MESSAGE, inputfile));			
+		}else{	
 		for(int i=0; i < list.size(); i++){			
 			valid = true;
 			showToUser(i+1 + ". "+list.get(i));			
@@ -252,8 +234,7 @@ public class TextBuddy {
 	private static String getCommand(String userCommand) {
 
 		String arr[] = userCommand.split(" ");
-		return arr[0];
-		
+		return arr[0];		
 	}
 	
 	/*
@@ -265,8 +246,7 @@ public class TextBuddy {
 
 		int i=userCommand.indexOf(" ");
 		String info=userCommand.substring(i+1,userCommand.length());
-		return info;
-		
+		return info;		
 	}
 
 	
@@ -296,24 +276,23 @@ public class TextBuddy {
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(content);
 		bw.close();
-		return result;
-		
+		return result;		
 	}
 	
     //this function save arraylist to a file
     private static void saveFile() throws IOException{
     	
     	File fileObj = new File(file);
+    	String content = "";
     	BufferedWriter bw = new BufferedWriter(new FileWriter(file));
     	
     	for (int i = 0; i < list.size(); i ++){
     		String lineToWrite = list.get(i);
-    		bw.write(lineToWrite + "\n\r");
+    		content += lineToWrite + "\r\n";
+    		
     	}
-    	
-    	bw.close();
-    	
-    }
-	
-	
+    	System.out.println(content);
+    	bw.write(content);
+    	bw.close();   	
+    }	
 }
