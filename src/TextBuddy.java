@@ -58,6 +58,7 @@ public class TextBuddy {
 	private static final String EMPTY_ERROR_MESSAGE = "You have not add task, nothing found";
 	private static final String NOTFOUND_ERROR_MESSAGE ="nothing found";
 	private static final String EMPTY_SORT_MESSAGE = "you have not add any task, nothing to sort";
+	private static final String SUCCEEFUL_SORT_MESSAGE = "task sorted successfully";
 	
 	public static void main(String[] args) throws IOException {
 			
@@ -126,7 +127,7 @@ public class TextBuddy {
 		}else if(command.equals(SEARCH_CMD)){
 			executeSearch(info);
 		}else if(command.equals(SORT_CMD)){
-			
+			executeSort();
 		}
 		else{			
 			return(FORMAT_ERROR);			
@@ -142,7 +143,7 @@ public class TextBuddy {
 	
 	Collections.sort(list);
 	
-	return "";
+	return SUCCEEFUL_SORT_MESSAGE;
 	}
 
 	static String executeSearch(String info) {
