@@ -45,6 +45,10 @@ public class TextBuddyCE2TDD {
 		assertEquals("found, the task is little brown fox",TextBuddy.executeSearch("fox"));
 	}
 	
+	@Test
+	public void testSort(){
+		assertEquals("task sorted successfully",TextBuddy.executeSort());
+	}
 
 
 }
