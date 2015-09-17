@@ -2,7 +2,7 @@
  * Lin Xinlin
  * A0108355H
  * 
- * file will be saved to disk after each exit operation
+ * file will be saved to disk after each operation
  * 
  * program will catch a few errors including:
  * 1. invalid commands
@@ -22,17 +22,21 @@
    exit
  */
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class TextBuddy {
 	static String inputfile;
 	private static ArrayList<String> list = new ArrayList<String>();
+	private static String file = "";
 	private static Scanner sc = new Scanner(System.in);
 	
 	private static final String ADD_CMD = "add";
@@ -40,7 +44,8 @@ public class TextBuddy {
 	private static final String DISPLAY_CMD = "display";
 	private static final String CLEAR_CMD = "clear";
 	private static final String EXIT_CMD = "exit";
-	private static final String SEARCH_CMD ="search";
+	private static final String SEARCH_CMD = "search";
+	private static final String SORT_CMD = "sort";
 	
 	private static final String ERROR_FILE_NAME_NOT_SPECIFIED = "Error, file name not specified";
 	private static final String ADD_MESSAGE = "added to %s: \"%s\"";
@@ -52,12 +57,11 @@ public class TextBuddy {
 	private static final String DELETE_ERROR_MESSAGE = "The item you are trying to delete does not exist";
 	private static final String EMPTY_ERROR_MESSAGE = "You have not add task, nothing found";
 	private static final String NOTFOUND_ERROR_MESSAGE ="nothing found";
+	private static final String EMPTY_SORT_MESSAGE = "you have not add any task, nothing to sort";
 	
 	public static void main(String[] args) throws IOException {
-		
-		
+			
 		loadinput(args);
-	
 	}
 	
 	private static void executeKeyinOrder() throws IOException{
@@ -68,6 +72,7 @@ public class TextBuddy {
 			showToUser(userCommand);
 			String feedback = executeCommand(userCommand);
 			showToUser(feedback);
+			saveFile();
 		}
 		
 		
@@ -120,13 +125,25 @@ public class TextBuddy {
 			executeExit();		
 		}else if(command.equals(SEARCH_CMD)){
 			executeSearch(info);
-		}else{			
+		}else if(command.equals(SORT_CMD)){
+			
+		}
+		else{			
 			return(FORMAT_ERROR);			
 		}		
 		return "";
 	}
 
+	static String executeSort() {
+	String sortMSG = "";	
+	if(list.size() == 0){
+	return EMPTY_SORT_MESSAGE;	
+	}
 	
+	Collections.sort(list);
+	
+	return "";
+	}
 
 	static String executeSearch(String info) {
 		boolean isFound = false;
@@ -215,14 +232,13 @@ public class TextBuddy {
 			
 			showToUser(String.format(EMPTY_MESSAGE, inputfile));
 			
-		}
+		}else{
 		
-		for(int i=0; i < list.size(); i++){
-			
-			showToUser(i+1 + ". "+list.get(i));
-			
+		for(int i=0; i < list.size(); i++){			
+			valid = true;
+			showToUser(i+1 + ". "+list.get(i));			
 		}
-		
+		}
 		return valid;
 			
 	}
@@ -260,23 +276,43 @@ public class TextBuddy {
 	 */
 	private static boolean isNumeric(String str) {  
 		
-	  try {  
-		  
+	  try {  		  
 	    double d = Double.parseDouble(str);  
-	    
 	  }  
 	  catch(NumberFormatException nfe) {  
-		  
 	    return false;  
-	    
 	  }  
 	  return true;  
 	}
-
-	public static Object executeSort() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	//this function clears content of a file
+	private static String emptyFile() throws IOException{
+		
+		String content = "";
+		String result = file+" cleared";
+		File fileObj = new File(file);
+		FileWriter fw = new FileWriter(fileObj.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(content);
+		bw.close();
+		return result;
+		
 	}
+	
+    //this function save arraylist to a file
+    private static void saveFile() throws IOException{
+    	
+    	File fileObj = new File(file);
+    	BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+    	
+    	for (int i = 0; i < list.size(); i ++){
+    		String lineToWrite = list.get(i);
+    		bw.write(lineToWrite + "\n\r");
+    	}
+    	
+    	bw.close();
+    	
+    }
 	
 	
 }
