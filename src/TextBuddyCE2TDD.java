@@ -41,8 +41,14 @@ public class TextBuddyCE2TDD {
 	}
 	
 	@Test
+	public void testDelete(){
+		//TextBuddy.add("add hundreds of ways", file);
+		assertEquals("deleted from mytextfile.txt: \"1\"",TextBuddy.executeDelete("1"));
+	}
+	
+	@Test
 	public void testNotFoundSearch(){
-		assertEquals("nothing found",TextBuddy.executeSearch("hw"));
+		assertEquals("nothing found",TextBuddy.executeSearch("basketball"));
 	}
 	
 	@Test
