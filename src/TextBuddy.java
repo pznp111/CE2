@@ -29,6 +29,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -62,7 +63,7 @@ public class TextBuddy {
 	private static final String SUCCEEFUL_SORT_MESSAGE = "task sorted successfully";
 	
 	public static void main(String[] args) throws IOException {			
-		if(args.length == 0){			
+		if (args.length == 0){			
 			showToUser(ERROR_FILE_NAME_NOT_SPECIFIED);
 			System.exit(0);			
 		}else{		
@@ -73,7 +74,7 @@ public class TextBuddy {
 	
 	private static void executeKeyinOrder() throws IOException{		
 		showToUser(String.format(WELCOME_MESSAGE, inputfile));
-		while(true) {
+		while (true) {
 			System.out.print("command: ");
 			String userCommand = sc.nextLine();
 			showToUser(userCommand);
@@ -88,42 +89,39 @@ public class TextBuddy {
 	}
 
 	/*
-	 * ====================================================================
-	 * this function execute the commands  
-	 * ====================================================================
+	 * this function execute the commands   
 	 */
 	static String executeCommand(String userCommand) throws IOException {		
 		String command=getCommand(userCommand);
 		String info=getInfo(userCommand);
 		
-		if(command.equals(ADD_CMD)){			
+		if (command.equals(ADD_CMD)){			
 			return executeAdd(info);			
-		}else if(command.equals(DISPLAY_CMD)){			
+		} else if (command.equals(DISPLAY_CMD)){			
 			 executeDisplay(info);		
-		}else if(command.equals(DELETE_CMD)){		
+		} else if (command.equals(DELETE_CMD)){		
 			return executeDelete(info);			
-		}else if(command.equals(CLEAR_CMD)){			
+		} else if (command.equals(CLEAR_CMD)){			
 			return executeClear();			
-		}else if(command.equals(EXIT_CMD)){			
+		} else if (command.equals(EXIT_CMD)){			
 			executeExit();		
-		}else if(command.equals(SEARCH_CMD)){
+		} else if (command.equals(SEARCH_CMD)){
 			executeSearch(info);
-		}else if(command.equals(SORT_CMD)){
+		} else if (command.equals(SORT_CMD)){
 			executeSort();
-		}
-		else{			
-			return(FORMAT_ERROR);			
+		} else{			
+			return (FORMAT_ERROR);			
 		}		
 		return "";
 	}
 
 	static String executeSort() {		
 	String sortMSG = "";	
-	if(list.size() == 0){
+	if (list.size() == 0){
 	return EMPTY_SORT_MESSAGE;	
 	}
 	
-	Collections.sort(list);
+	Collections.sort (list);
 	
 	return SUCCEEFUL_SORT_MESSAGE;
 	}
@@ -132,27 +130,27 @@ public class TextBuddy {
 		boolean isFound = false;
 		String lineFound = "";
 		
-		if(list.size() == 0){
+		if (list.size() == 0){
 			return EMPTY_ERROR_MESSAGE;
 		}
 		
-		for(int i =0; i < list.size(); i++){
-			if(list.get(i).contains(info)){
+		for (int i =0; i < list.size(); i++){
+			if (list.get(i).contains(info)){
 				isFound = true;
 				lineFound ="found, the task is " + list.get(i);
 			}
 		}
 		
-		if(isFound == true){
+		if (isFound == true){
 			return lineFound;
-		}else{
+		} else {
 		return NOTFOUND_ERROR_MESSAGE;
 		}
 	}
 
 	private static void executeExit() throws IOException  {			
 		    PrintWriter writer = new PrintWriter(inputfile, "UTF-8");
-		    for(int i=0; i<list.size(); i++ ){	   
+		    for (int i=0; i<list.size(); i++ ){	   
 		    	writer.write(list.get(i));
 		    	writer.write(System.getProperty("line.separator"));		    	
 		    }
@@ -168,17 +166,17 @@ public class TextBuddy {
 
 	static String executeDelete(String info)  {		
 		String returnInfo="";		
-		if(isNumeric(info)){			
+		if (isNumeric(info)){			
 			int num=Integer.parseInt(info);
 			
-			if(num > list.size()){				
+			if (num > list.size()){				
 			returnInfo=DELETE_ERROR_MESSAGE;				
-			}else{			
+			} else {			
 			list.remove(num-1);
 			returnInfo = String.format(DELETE_MESSAGE, inputfile,info);			
 			}
 			
-		}else{	
+		} else {	
 			returnInfo = FORMAT_ERROR;			
 		}
 		
@@ -193,9 +191,9 @@ public class TextBuddy {
 
 	static boolean executeDisplay(String info) {
 		boolean valid = false;
-		if(list.size()==0){			
+		if (list.size()==0){			
 			showToUser(String.format(EMPTY_MESSAGE, inputfile));			
-		}else{	
+		} else {	
 		for(int i=0; i < list.size(); i++){			
 			valid = true;
 			showToUser(i+1 + ". "+list.get(i));			
@@ -206,19 +204,17 @@ public class TextBuddy {
 	}
 
 	/*
-	 * ====================================================================
-	 * this function is able to get the first word from a String 
-	 * ====================================================================
+	 * this function is able to get the first word from a String  
 	 */
 	private static String getCommand(String userCommand) {
 		String arr[] = userCommand.split(" ");
 		return arr[0];		
 	}
 	
-	/*
-	 * ====================================================================
-	 * this function remove the first word from a String
-	 * ====================================================================
+	/**
+	 * this function remove the first word from a String.
+	 * If the position is unset, NaN is returned.
+	 * @param userCommand is input
 	 */
 	private static String getInfo(String userCommand) {
 		int i=userCommand.indexOf(" ");
@@ -227,22 +223,29 @@ public class TextBuddy {
 	}
 
 	
-	/*
-	 * ====================================================================
-	 * to check whether a string is a number or not 
-	 * ====================================================================
+	/**
+	 * check whether the input is a number or not.
+	 * return true if input is a number,return false if input is not a number.
+	 *
+	 * @param str is a input.
 	 */
 	private static boolean isNumeric(String str) {  		
 	  try {  		  
 	    double d = Double.parseDouble(str);  
 	  }  
-	  catch(NumberFormatException nfe) {  
+	  catch (NumberFormatException nfe) {  
 	    return false;  
 	  }  
 	  return true;  
 	}
 	
-	//this function clears content of a file
+	/**
+	 * this function clears content of a file
+	 * If the position is unset, NaN is returned.
+	 *.
+	 * @return message of [filename] cleared.
+	 * @throws IOException if file does not exist.
+	 */
 	private static String emptyFile() throws IOException{		
 		String content = "";
 		String result = file+" cleared";
@@ -254,7 +257,10 @@ public class TextBuddy {
 		return result;		
 	}
 	
-    //this function save arraylist to a file
+	/**
+	 * this function save arraylist to a file.
+	 * @throws IOException  If file does not exist.
+	 */
     private static void saveFile() throws IOException{   	
     	File fileObj = new File(file);
     	String content = "";
@@ -263,7 +269,6 @@ public class TextBuddy {
     	for (int i = 0; i < list.size(); i ++){
     		String lineToWrite = list.get(i);
     		content += lineToWrite + "\r\n";
-    		
     	}
     	System.out.println(content);
     	bw.write(content);
