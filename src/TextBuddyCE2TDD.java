@@ -26,8 +26,13 @@ public class TextBuddyCE2TDD {
 	*/
 	
 	@Test
-	public void testAdd(){
+	public void testAdd1(){
 		assertEquals("added to mytextfile.txt: \"little brown fox\"",TextBuddy.executeAdd("little brown fox"));
+	}
+	
+	@Test
+	public void testAdd2(){
+		assertEquals("added to mytextfile.txt: \"do homework\"",TextBuddy.executeAdd("do homework"));
 	}
 	
 	@Test
