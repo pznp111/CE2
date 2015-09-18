@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class TextBuddy {
+	
 	static String inputfile;
 	private static ArrayList<String> list = new ArrayList<String>();
 	private static String file = "tasklist.txt";
@@ -60,12 +61,17 @@ public class TextBuddy {
 	private static final String EMPTY_SORT_MESSAGE = "you have not add any task, nothing to sort";
 	private static final String SUCCEEFUL_SORT_MESSAGE = "task sorted successfully";
 	
-	public static void main(String[] args) throws IOException {
-			
-		loadinput(args);
+	public static void main(String[] args) throws IOException {			
+		if(args.length == 0){			
+			showToUser(ERROR_FILE_NAME_NOT_SPECIFIED);
+			System.exit(0);			
+		}else{		
+			inputfile = args[0];
+			executeKeyinOrder();			
+		}
 	}
 	
-	private static void executeKeyinOrder() throws IOException{
+	private static void executeKeyinOrder() throws IOException{		
 		showToUser(String.format(WELCOME_MESSAGE, inputfile));
 		while(true) {
 			System.out.print("command: ");
@@ -77,25 +83,7 @@ public class TextBuddy {
 		}	
 	}
 	
-	/*
-	 * ====================================================================
-	 * this function try to load input from a file first, if user does not load
-	 * input from a file, it will proceed to normal input panel 
-	 * ====================================================================
-	 */
-	private static void loadinput(String[] args) throws IOException {
-		
-		if(args.length == 0){			
-			showToUser(ERROR_FILE_NAME_NOT_SPECIFIED);
-			System.exit(0);			
-		}else{		
-			inputfile = args[0];
-			executeKeyinOrder();			
-		}
-	}
-	
-	private static void showToUser(String text) {
-		
+	private static void showToUser(String text) {		
 		System.out.println(text);
 	}
 
@@ -104,8 +92,7 @@ public class TextBuddy {
 	 * this function execute the commands  
 	 * ====================================================================
 	 */
-	static String executeCommand(String userCommand) throws IOException {
-		
+	static String executeCommand(String userCommand) throws IOException {		
 		String command=getCommand(userCommand);
 		String info=getInfo(userCommand);
 		
@@ -130,8 +117,7 @@ public class TextBuddy {
 		return "";
 	}
 
-	static String executeSort() {
-		
+	static String executeSort() {		
 	String sortMSG = "";	
 	if(list.size() == 0){
 	return EMPTY_SORT_MESSAGE;	
@@ -142,8 +128,7 @@ public class TextBuddy {
 	return SUCCEEFUL_SORT_MESSAGE;
 	}
 
-	static String executeSearch(String info) {
-		
+	static String executeSearch(String info) {	
 		boolean isFound = false;
 		String lineFound = "";
 		
@@ -165,8 +150,7 @@ public class TextBuddy {
 		}
 	}
 
-	private static void executeExit() throws IOException  {
-			
+	private static void executeExit() throws IOException  {			
 		    PrintWriter writer = new PrintWriter(inputfile, "UTF-8");
 		    for(int i=0; i<list.size(); i++ ){	   
 		    	writer.write(list.get(i));
@@ -177,19 +161,17 @@ public class TextBuddy {
 		    System.exit(0);
 	}
 
-	static String executeClear() {
-		
+	static String executeClear() {		
 		list.clear();
 		return String.format(CLEAR_MESSAGE, inputfile);		
 	}
 
-	static String executeDelete(String info)  {
-		
+	static String executeDelete(String info)  {		
 		String returnInfo="";		
 		if(isNumeric(info)){			
 			int num=Integer.parseInt(info);
 			
-			if(num>list.size()){				
+			if(num > list.size()){				
 			returnInfo=DELETE_ERROR_MESSAGE;				
 			}else{			
 			list.remove(num-1);
@@ -200,19 +182,16 @@ public class TextBuddy {
 			returnInfo = FORMAT_ERROR;			
 		}
 		
-		return returnInfo;
-		
+		return returnInfo;		
 	}
 
-	static String executeAdd(String info) {
-		
+	static String executeAdd(String info) {		
 		list.add(info);
 		String returnInfo=String.format(ADD_MESSAGE, inputfile,info);
 		return returnInfo;		
 	}
 
 	static boolean executeDisplay(String info) {
-
 		boolean valid = false;
 		if(list.size()==0){			
 			showToUser(String.format(EMPTY_MESSAGE, inputfile));			
@@ -232,7 +211,6 @@ public class TextBuddy {
 	 * ====================================================================
 	 */
 	private static String getCommand(String userCommand) {
-
 		String arr[] = userCommand.split(" ");
 		return arr[0];		
 	}
@@ -243,7 +221,6 @@ public class TextBuddy {
 	 * ====================================================================
 	 */
 	private static String getInfo(String userCommand) {
-
 		int i=userCommand.indexOf(" ");
 		String info=userCommand.substring(i+1,userCommand.length());
 		return info;		
@@ -255,8 +232,7 @@ public class TextBuddy {
 	 * to check whether a string is a number or not 
 	 * ====================================================================
 	 */
-	private static boolean isNumeric(String str) {  
-		
+	private static boolean isNumeric(String str) {  		
 	  try {  		  
 	    double d = Double.parseDouble(str);  
 	  }  
@@ -267,8 +243,7 @@ public class TextBuddy {
 	}
 	
 	//this function clears content of a file
-	private static String emptyFile() throws IOException{
-		
+	private static String emptyFile() throws IOException{		
 		String content = "";
 		String result = file+" cleared";
 		File fileObj = new File(file);
@@ -280,8 +255,7 @@ public class TextBuddy {
 	}
 	
     //this function save arraylist to a file
-    private static void saveFile() throws IOException{
-    	
+    private static void saveFile() throws IOException{   	
     	File fileObj = new File(file);
     	String content = "";
     	BufferedWriter bw = new BufferedWriter(new FileWriter(file));
